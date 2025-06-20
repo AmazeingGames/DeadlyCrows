@@ -1,0 +1,18 @@
+using UnityEngine;
+
+public abstract class PlayerState
+{
+    protected Player player;
+
+    public PlayerState(Player player)
+    {
+        this.player = player;
+    }
+
+    public abstract void Enter();
+    public abstract void HandleInput();
+    public abstract void Update();
+    public abstract void FixedUpdate();
+    public abstract void Exit();
+
+}

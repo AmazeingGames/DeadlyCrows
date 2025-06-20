@@ -46,17 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ffde9a247418645a24314a02025544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMoveSpeed: 6
-  playerReloadingSpeed: 3
-  rollDuration: 0.2
-  rollCooldown: 0.5
-  rollStartingSpeed: 8
-  rollMaxSpeed: 15
-  addMathCurve: 1
-  maxBullets: 6
-  aimCorrection: 0.1
-  cooldownBetweenRounds: 0.1
-  bulletLoadTime: 0.2
+  <WalkMoveSpeed>k__BackingField: 6
+  <PlayerReloadSpeed>k__BackingField: 3
+  <RollDuration>k__BackingField: 0.2
+  <RollCooldown>k__BackingField: 0.5
+  <RollStartingSpeed>k__BackingField: 8
+  <RollMaxSpeed>k__BackingField: 15
+  <AddMathCurve>k__BackingField: 1
+  <GunData>k__BackingField: {fileID: 11400000, guid: d31dabdc0e83b9d4182747f0945adcdd, type: 2}
   bullet: {fileID: 7928074798001447564, guid: 5cd88dd1073e77f44bd934e8a5af18f4, type: 3}
   rigidbody: {fileID: 5856785436160039113}
 --- !u!50 &5856785436160039113

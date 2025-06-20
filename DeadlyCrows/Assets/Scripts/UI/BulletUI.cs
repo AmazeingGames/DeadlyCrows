@@ -36,6 +36,7 @@ public class BulletUI : MonoBehaviour
         }
     }
 
+    // In the future, I would like the bullets to shoot up off the screen and then come back down when reloading
     void HandleCurrentBulletsChanged(object sender, CurrentBulletsChangedEventArgs e)
     {
         Debug.Log($"change amount: {e.changeAmount}");

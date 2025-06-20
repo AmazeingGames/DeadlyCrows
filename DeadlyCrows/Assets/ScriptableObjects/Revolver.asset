@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Revolver
   m_EditorClassIdentifier: 
   <MaxBullets>k__BackingField: 6
-  <CooldownBetweenRounds>k__BackingField: 0.1
+  <CooldownBetweenRounds>k__BackingField: 0.125
   <BulletLoadTime>k__BackingField: 0.2

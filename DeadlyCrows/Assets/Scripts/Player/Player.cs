@@ -1,18 +1,19 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Movement Speed")]
-    [SerializeField] float playerMoveSpeed;
-    [SerializeField] float playerReloadingSpeed;
+    [field: Header("Movement Speed")]
+    [field: SerializeField] public float WalkMoveSpeed { get; set; }
+    [field: SerializeField] public float PlayerReloadSpeed { get; set; }
 
-    [Header("Roll")]
-    [SerializeField] float rollDuration;
-    [SerializeField] float rollCooldown;
-    [SerializeField] float rollStartingSpeed;
-    [SerializeField] float rollMaxSpeed;
-    [SerializeField] bool addMathCurve;
+    [field: Header("Roll")]
+    [field: SerializeField] public float RollDuration { get; set; }
+    [field: SerializeField] public float RollCooldown { get; set; }
+    [field: SerializeField] public float RollStartingSpeed { get; set; }
+    [field: SerializeField] public float RollMaxSpeed { get; set; }
+    [field: SerializeField] public bool AddMathCurve { get; set; }
     // [SerializeField] AnimationCurve rollCurve;
 
     [Header("Gun")]
@@ -22,18 +23,11 @@ public class Player : MonoBehaviour
     [SerializeField] Bullet bullet;
     [SerializeField] Rigidbody2D rigidbody;
 
-    public enum PlayerState { None, Moving, Reloading, Rolling }
+    public float RollDurationTimer { get; set; }
+    public float RollCooldownTimer { get; set; }
+    public float TimeSinceLastShot { get; set; }
 
-    PlayerState myState = PlayerState.None;
-    PlayerState myStateLastFrame;
-    bool changedStateLastFrame;
-    
-    float reloadTimer;
-    
-    float rollDurationTimer;
-    float rollCooldownTimer;
-
-    private float currentMoveSpeed;
+    public float CurrentMoveSpeed { get; set; }
     private Vector2 movementInput;
 
     int propertyCurrentBullets;
@@ -51,127 +45,69 @@ public class Player : MonoBehaviour
         } 
     }
 
-    public static EventHandler<CurrentBulletsChangedEventArgs> CurrentBulletsChangedEventHandler;
+    public static PlayerRollState RollState { get; private set; }
+    public static PlayerReloadState ReloadState { get; private set; }
+    public static PlayerWalkState WalkState { get; private set; }
 
+    PlayerState previousState;
+    PlayerState _playerState;
+    public PlayerState PlayerState 
+    { 
+        get => _playerState; 
+        set
+        {
+            previousState = _playerState;
+            _playerState = value;
+
+            previousState?.Exit();
+            value.Enter();
+        }
+    }
+
+    public static EventHandler<CurrentBulletsChangedEventArgs> CurrentBulletsChangedEventHandler;
+    public bool CalculateMoveDirection { get; set; }
+
+    public bool CanStateShoot { get; set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        myState = PlayerState.None;
-        myState = PlayerState.Moving;
+        RollState = new(this);
+        ReloadState = new(this);
+        WalkState = new(this);
+
+        PlayerState = WalkState;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (changedStateLastFrame)
-        {
-            myStateLastFrame = myState;
-            changedStateLastFrame = false;
-        }
+        RollCooldownTimer -= Time.deltaTime;
+        TimeSinceLastShot += Time.deltaTime;
 
-        if (myStateLastFrame != myState)
-            changedStateLastFrame = true;
-
-        rollCooldownTimer -= Time.deltaTime;
-
-        switch (myState)
-        {
-            case PlayerState.Moving:
-                
-                currentMoveSpeed = playerMoveSpeed;
-
-                if (Input.GetButtonDown("Fire1"))
-                    Shoot();
-
-                if (Input.GetButtonDown("Roll") && rollCooldownTimer <= 0)
-                    myState = PlayerState.Rolling;
-
-                if (Input.GetButtonDown("Reload"))
-                    myState = PlayerState.Reloading;
-                break;
-
-            case PlayerState.Reloading:
-                if (changedStateLastFrame)
-                {
-                    currentMoveSpeed = playerReloadingSpeed;
-                    reloadTimer = 0;
-                }
-
-                reloadTimer -= Time.deltaTime;
-
-                if (reloadTimer < 0)
-                {
-                    reloadTimer = GunData.BulletLoadTime;
-                    Reload(1);   
-                }
-
-                if (CurrentBullets == GunData.MaxBullets)
-                    myState = PlayerState.Moving;
-
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    myState = PlayerState.Moving;
-                    Shoot();
-                }
-
-                if (Input.GetButtonDown("Roll") && rollCooldownTimer <= 0)
-                    myState = PlayerState.Rolling;
-                break;
-
-            case PlayerState.Rolling:
-                if (changedStateLastFrame)
-                {
-                    rollDurationTimer = 0;
-                    rollCooldownTimer = rollCooldown;
-                }
-
-                rollDurationTimer += Time.deltaTime;
-                float t = rollDurationTimer / rollDuration;
-
-                if (addMathCurve)
-                    t = (float)(t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.Pow(-2 * t + 2, 5) / 2);
-
-                float speed = Mathf.Lerp(rollStartingSpeed, rollMaxSpeed, t);
-                currentMoveSpeed = speed;
-
-                if (rollDurationTimer >= rollDuration)
-                    myState = PlayerState.Moving;
-                break;
-        }
+        PlayerState.HandleInput();
+        PlayerState.Update();
     }
+
     private void FixedUpdate()
     {
-        switch (myState)
-        {
-            case PlayerState.Moving:
-                MovePlayer();
-            break;
+        PlayerState.FixedUpdate();
 
-            case PlayerState.Reloading:
-                MovePlayer();
-            break;
-
-            case PlayerState.Rolling:
-                MovePlayer(false);
-            break;
-        }
+        MovePlayer();
     }
 
-
-    private void MovePlayer(bool calculateMoveDirection = true)
+    public void MovePlayer()
     {
-        if (calculateMoveDirection)
+        if (CalculateMoveDirection)
         {
             movementInput.x = Input.GetAxisRaw("Horizontal");
             movementInput.y = Input.GetAxisRaw("Vertical");
         }
 
-        rigidbody.MovePosition(rigidbody.position + movementInput.normalized * currentMoveSpeed * Time.fixedDeltaTime);
-        // rigidbody.linearVelocity = (movementInput * currentMoveSpeed);
+        rigidbody.MovePosition(rigidbody.position + movementInput.normalized * CurrentMoveSpeed * Time.fixedDeltaTime);
     }
 
-    void Reload(int amount, bool maxReload = false)
+    public void Reload(int amount, bool maxReload = false)
     {
         var newCount = CurrentBullets;
 
@@ -184,14 +120,18 @@ public class Player : MonoBehaviour
         CurrentBullets = newCount;
     }
 
-    void Shoot()
+    public bool Shoot()
     {
-        if (CurrentBullets > 0)
+        if (CurrentBullets > 0 && TimeSinceLastShot >= GunData.CooldownBetweenRounds)
         {
+            TimeSinceLastShot = 0;
             CurrentBullets -= 1;
             Bullet bulletInstance = Instantiate(bullet, transform.position, Quaternion.identity);
             bulletInstance.SetTarget(Mouse.Position);
+
+            return true;
         }
+        return false;
     }
 }
 

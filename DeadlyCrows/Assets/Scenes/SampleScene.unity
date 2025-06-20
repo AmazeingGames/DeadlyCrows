@@ -833,10 +833,6 @@ PrefabInstance:
       propertyPath: rollDuration
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 8516363745482141819, guid: 98bc5f3d9c8960e45ba5ae8ad3dc4b9d, type: 3}
-      propertyPath: <GunData>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: d31dabdc0e83b9d4182747f0945adcdd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
