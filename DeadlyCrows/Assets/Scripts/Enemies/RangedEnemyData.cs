@@ -1,14 +1,7 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class RangedEnemyData : MonoBehaviour
 {
-    [Header("Data")]
-    [SerializeField] EnemyData enemyData;
-
-    [Header("Components")]
-    [SerializeField] Rigidbody2D rigidbody;
-    [SerializeField] SpriteRenderer spriteRenderer;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

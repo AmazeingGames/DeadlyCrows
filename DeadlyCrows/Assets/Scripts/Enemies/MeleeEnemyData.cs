@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class MeleeEnemyData : MonoBehaviour
+public class MeleeEnemyData : EnemyData
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public enum MeleeAttackType { Axe, Katana }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [field: Header("Melee")]
+    [field: SerializeField] public MeleeAttackType MyAttackType { get; private set; }
+
 }
