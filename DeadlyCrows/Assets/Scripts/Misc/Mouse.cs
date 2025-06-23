@@ -4,7 +4,7 @@ public class Mouse : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] SpriteRenderer cursor;
-    [SerializeField] Vector2 offset;
+    [SerializeField] Vector3 offset;
 
     [Header("Properties")]
     [SerializeField] Sprite gameplayCursor;
@@ -20,8 +20,13 @@ public class Mouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Position;
+        transform.position = GetPosition();
     }
 
-    public static Vector2 Position => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    public static Vector3 GetPosition()
+    {
+        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.y = 0;
+        return mousePosition;
+    }
 }

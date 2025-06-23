@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7068789346183117883}
   - component: {fileID: 8516363745482141819}
-  - component: {fileID: 5856785436160039113}
   - component: {fileID: 4902469830395138210}
   m_Layer: 0
   m_Name: Player
@@ -55,34 +54,7 @@ MonoBehaviour:
   <AddMathCurve>k__BackingField: 1
   <GunData>k__BackingField: {fileID: 11400000, guid: d31dabdc0e83b9d4182747f0945adcdd, type: 2}
   bullet: {fileID: 7928074798001447564, guid: 5cd88dd1073e77f44bd934e8a5af18f4, type: 3}
-  rigidbody: {fileID: 5856785436160039113}
---- !u!50 &5856785436160039113
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 857328772819409419}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  rigidbody: {fileID: 0}
 --- !u!212 &4902469830395138210
 SpriteRenderer:
   m_ObjectHideFlags: 0

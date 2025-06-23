@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class RangedEnemyData : MonoBehaviour
+[CreateAssetMenu(fileName = "RangedEnemyData", menuName = "Scriptable Objects/EnemyData/Ranged")]
+public class RangedEnemyData : EnemyData
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [field: Header("Ranged")]
+    [field: SerializeField] public bool showTrajectory { get; private set; }
 }

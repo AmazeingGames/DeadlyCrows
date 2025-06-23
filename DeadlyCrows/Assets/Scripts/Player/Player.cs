@@ -21,14 +21,14 @@ public class Player : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Bullet bullet;
-    [SerializeField] Rigidbody2D rigidbody;
+    [SerializeField] Rigidbody rigidbody;
 
     public float RollDurationTimer { get; set; }
     public float RollCooldownTimer { get; set; }
     public float TimeSinceLastShot { get; set; }
 
     public float CurrentMoveSpeed { get; set; }
-    private Vector2 movementInput;
+    private Vector3 movementInput;
 
     int propertyCurrentBullets;
     public int CurrentBullets 
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
         if (CalculateMoveDirection)
         {
             movementInput.x = Input.GetAxisRaw("Horizontal");
-            movementInput.y = Input.GetAxisRaw("Vertical");
+            movementInput.z = Input.GetAxisRaw("Vertical");
         }
 
         rigidbody.MovePosition(rigidbody.position + movementInput.normalized * CurrentMoveSpeed * Time.fixedDeltaTime);
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             TimeSinceLastShot = 0;
             CurrentBullets -= 1;
             Bullet bulletInstance = Instantiate(bullet, transform.position, Quaternion.identity);
-            bulletInstance.SetTarget(Mouse.Position);
+            bulletInstance.SetTarget(Mouse.GetPosition());
 
             return true;
         }

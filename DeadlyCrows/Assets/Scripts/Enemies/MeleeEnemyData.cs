@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "MeleeEnemyData", menuName = "Scriptable Objects/EnemyData/Melee")]
 public class MeleeEnemyData : EnemyData
 {
     public enum MeleeAttackType { Axe, Katana }

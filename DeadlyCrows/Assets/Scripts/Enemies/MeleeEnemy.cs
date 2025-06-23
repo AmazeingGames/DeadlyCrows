@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class MeleeEnemy : MonoBehaviour
+public class MeleeEnemy : Enemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Update()
     {
-        
+        RunStateMachine();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Attack()
     {
-        
+        base.Attack();
     }
 }
