@@ -4,8 +4,7 @@ public class PlayerWalkState : GroundedState
 {
     public PlayerWalkState(Player player) : base(player) { }
 
-
-    public override void Enter() 
+    public override void Enter()
         => base.Enter();
 
     public override void Exit() { }
@@ -21,5 +20,12 @@ public class PlayerWalkState : GroundedState
     }
 
     public override void Update()
-        => player.CurrentMoveSpeed = player.WalkMoveSpeed;
+    {
+        player.CurrentMoveSpeed = player.WalkMoveSpeed;
+
+        if (player.MovementInput.x == 0 && player.MovementInput.z == 0)
+            Animator.PlayAnimation(Animator.idle);
+        else
+            Animator.PlayAnimation(Animator.run);
+    }
 }

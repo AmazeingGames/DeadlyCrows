@@ -3,6 +3,8 @@ using UnityEngine;
 public abstract class PlayerState
 {
     protected Player player;
+    protected ObjectAnimator Animator => player.PlayerAnimator;
+
 
     public PlayerState(Player player)
     {

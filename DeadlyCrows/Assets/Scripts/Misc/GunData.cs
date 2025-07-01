@@ -7,5 +7,6 @@ public class GunData : ScriptableObject
     [field: SerializeField] public int MaxBullets { get; private set; }
     [field: SerializeField] public float CooldownBetweenRounds { get; private set; }
     [field: SerializeField] public float BulletLoadTime { get; private set; }
+    [field: SerializeField] public Vector3 BulletOffset { get; private set; }
 
 }

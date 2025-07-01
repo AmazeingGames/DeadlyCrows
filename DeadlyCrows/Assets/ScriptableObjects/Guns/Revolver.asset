@@ -15,3 +15,4 @@ MonoBehaviour:
   <MaxBullets>k__BackingField: 6
   <CooldownBetweenRounds>k__BackingField: 0.125
   <BulletLoadTime>k__BackingField: 0.2
+  <BulletOffset>k__BackingField: {x: 0.3, y: 0, z: 1.5}

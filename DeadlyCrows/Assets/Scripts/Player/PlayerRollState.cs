@@ -10,6 +10,8 @@ public class PlayerRollState : PlayerState
         player.RollDurationTimer = 0;
         player.RollCooldownTimer = player.RollCooldown;
         player.CalculateMoveDirection = false;
+
+        Animator.PlayAnimation(Animator.roll, -1);
     }
 
     public override void Exit()

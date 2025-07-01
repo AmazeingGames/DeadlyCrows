@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c77ef08040d1741bc32a7574e1a056, type: 3}
   m_Name: GenericRanged
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 6
-  <StartAttackDistance>k__BackingField: 10
-  startChaseDistance: -1
-  <AttackRate>k__BackingField: 2
-  attackWindup: -1
-  <DeathSound>k__BackingField: 0
-  <WindUpSound>k__BackingField: 0
-  <AttackSound>k__BackingField: 0
+  <Prototype>k__BackingField: {fileID: 0}
+  _movementSpeed: 4
+  _acceleration: 8
+  _deceleration: 10
+  _startAttackDistance: 5
+  _startChaseDistance: 10
+  _attackRate: 2
+  _attackWindup: -1
+  _deathSound: 0
+  _windUpSound: 0
+  _attackSound: 0
   <showTrajectory>k__BackingField: 0

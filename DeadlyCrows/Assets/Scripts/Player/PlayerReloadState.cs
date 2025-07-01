@@ -31,5 +31,10 @@ public class PlayerReloadState : GroundedState
 
         if (player.CurrentBullets == player.GunData.MaxBullets)
             player.PlayerState = Player.WalkState;
+
+        if (player.MovementInput.x == 0 && player.MovementInput.z == 0)
+            Animator.PlayAnimation(Animator.idle, -1);
+        else
+            Animator.PlayAnimation(Animator.walk, -1);
     }
 }

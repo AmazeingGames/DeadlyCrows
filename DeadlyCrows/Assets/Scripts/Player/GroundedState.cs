@@ -17,7 +17,12 @@ public class GroundedState : PlayerState
             player.PlayerState = Player.RollState;
 
         if (Input.GetButtonDown("Fire1") && player.Shoot())
-            player.PlayerState = Player.WalkState;
+        {
+            if (player.MovementInput.x == 0 && player.MovementInput.z == 0)
+                Animator.PlayAnimation(Animator.shoot, Animator.LockShootDuration);
+            else
+                Animator.PlayAnimation(Animator.runShoot, Animator.LockShootDuration);
+        }
     }
 
     public override void Update() { }

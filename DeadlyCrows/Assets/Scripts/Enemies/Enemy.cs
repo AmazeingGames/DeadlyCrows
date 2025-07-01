@@ -41,20 +41,27 @@ public class Enemy : MonoBehaviour
             changedStateLastFrame = true;
 
         timeTillAttack -= Time.deltaTime;
+
         agent.speed = enemyData.MovementSpeed;
+        agent.stoppingDistance = enemyData.StartAttackDistance;
 
         switch (myState)
         {
             case EnemyState.Chase:
                 agent.isStopped = false;
                 agent.destination = target.position;
+                agent.acceleration = enemyData.Acceleration;
 
                 if (distanceFromTarget < enemyData.StartAttackDistance)
+                {
+                    Debug.Log("Changed state to attack");
                     myState = EnemyState.Attack;
-            break;
+                }
+                break;
 
             case EnemyState.Attack:
                 agent.isStopped = true;
+                agent.acceleration = enemyData.Deceleration;
 
                 if (changedStateLastFrame)
                     timeTillAttack = enemyData.AttackWindup;
@@ -63,7 +70,10 @@ public class Enemy : MonoBehaviour
                     Attack();
 
                 if (distanceFromTarget >= enemyData.StartChaseDistance)
+                {
+                    Debug.Log("Changed state to Chase");
                     myState = EnemyState.Chase;
+                }
             break;
         }
     }

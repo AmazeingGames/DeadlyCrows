@@ -20,15 +20,20 @@ public class Player : MonoBehaviour
     [field: SerializeField] public GunData GunData { get; private set; }
 
     [Header("Components")]
-    [SerializeField] Bullet bullet;
     [SerializeField] Rigidbody rigidbody;
+    [field: SerializeField] public ObjectAnimator PlayerAnimator { get; private set; }
+
+    [Header("Prefabs")]
+    [SerializeField] Bullet bullet;
 
     public float RollDurationTimer { get; set; }
     public float RollCooldownTimer { get; set; }
     public float TimeSinceLastShot { get; set; }
 
     public float CurrentMoveSpeed { get; set; }
-    private Vector3 movementInput;
+
+    Vector3 _movementInput;
+    public Vector3 MovementInput { get => _movementInput; private set => _movementInput = value; }
 
     int propertyCurrentBullets;
     public int CurrentBullets 
@@ -100,11 +105,11 @@ public class Player : MonoBehaviour
     {
         if (CalculateMoveDirection)
         {
-            movementInput.x = Input.GetAxisRaw("Horizontal");
-            movementInput.z = Input.GetAxisRaw("Vertical");
+            _movementInput.x = Input.GetAxisRaw("Horizontal");
+            _movementInput.z = Input.GetAxisRaw("Vertical");
         }
 
-        rigidbody.MovePosition(rigidbody.position + movementInput.normalized * CurrentMoveSpeed * Time.fixedDeltaTime);
+        rigidbody.MovePosition(rigidbody.position + MovementInput.normalized * CurrentMoveSpeed * Time.fixedDeltaTime);
     }
 
     public void Reload(int amount, bool maxReload = false)
@@ -126,7 +131,8 @@ public class Player : MonoBehaviour
         {
             TimeSinceLastShot = 0;
             CurrentBullets -= 1;
-            Bullet bulletInstance = Instantiate(bullet, transform.position, Quaternion.identity);
+            var bulletOffset = PlayerAnimator.IsFlipped ? new(GunData.BulletOffset.x * -1, 0, GunData.BulletOffset.z) : GunData.BulletOffset;
+            Bullet bulletInstance = Instantiate(bullet, transform.position + bulletOffset, Quaternion.identity);
             bulletInstance.SetTarget(Mouse.GetPosition());
 
             return true;

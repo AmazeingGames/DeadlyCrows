@@ -20,15 +20,15 @@ public class Bullet : MonoBehaviour
         this.targetPosition = targetPosition;
         targetDirection = (targetPosition - rigidbody.position).normalized;
 
-        Debug.Log($"Bullet | Target Position: {this.targetPosition}");
-        Debug.Log($"Bullet | Target Direction: {targetDirection}");
+        // Debug.Log($"Bullet | Target Position: {this.targetPosition}");
+        // Debug.Log($"Bullet | Target Direction: {targetDirection}");
     }
 
     // I would like to add an easing function where the bullet starts fast and gradually slows to a constant speed
     private void Update()
     {
-        Debug.Log($"Bullet | Target Position: {this.targetPosition}");
-        Debug.Log($"Bullet | Target Direction: {targetDirection}");
+        // Debug.Log($"Bullet | Target Position: {this.targetPosition}");
+        // Debug.Log($"Bullet | Target Direction: {targetDirection}");
         rigidbody.linearVelocity = targetDirection * velocity;
     }
 }
